@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Know Your Mental Health</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #add8e6, #87ceeb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+    
+        #quiz-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 60%;
+            max-width: 500px;
+        }
+    
+        #question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    
+        #rating {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px; 
+        }
+    
+        #rating input[type="radio"] {
+            margin: 0 10px;
+            transform: scale(1.2);
+        }
+    
+        #next-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px; 
+        }
+    
+        #next-button:hover {
+            background-color: #0056b3;
+        }
+    
+        #next-button:active {
+            background-color: #888888;
+        }
+    
+        #result {
+            display: none;
+            font-size: 28px;
+            margin-top: 20px;
+            color: #007bff;
+        }
+    </style>
+    
+    
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Know Your Mental Health</h1>
+        <p id="question"></p>
+        <div id="rating">
+            <input type="radio" name="rating" value="1"> 1
+            <input type="radio" name="rating" value="2"> 2
+            <input type="radio" name="rating" value="3"> 3
+            <input type="radio" name="rating" value="4"> 4
+            <input type="radio" name="rating" value="5"> 5
+        </div>
+        <button id="next-button">Next</button>
+        <p id="result">Quiz Complete!</p>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "How good was your day",
+                answer: 0,
+            },
+            {
+                question: "how good you rate your mental heralth today.",
+                answer: 0,
+            },
+            {
+                question: "how much have your moods or emotions changed recently",
+                answer: 0,
+            },
+            {
+                question: "How would you rate your anxiety or stress levels",
+                answer: 0,
+            },
+            {
+                question: "how would you rate the impact of specific stressors in your life",
+                answer: 0,
+            },
+            {
+                question: "rate your satisfaction with your relationships with friends and family",
+                answer: 0,
+            },
+            {
+                question: "rate your current self-esteem and self-confidence",
+                answer: 0,
+            },
+            {
+                question: "rate the intensity of any thoughts of self-harm or suicide",
+                answer: 0,
+            },
+            {
+                question: "Please rate your use of coping mechanisms",
+                answer: 0,
+            },
+            {
+                question: "how would you rate the impact of specific stressors in your life",
+                answer: 0,
+            },
+            
+        ];
+
+        let currentQuestion = 0;
+        const questionElement = document.getElementById("question");
+        const ratingElements = document.getElementsByName("rating");
+        const nextButton = document.getElementById("next-button");
+        const resultElement = document.getElementById("result");
+
+        function showQuestion() {
+            if (currentQuestion < questions.length) {
+                questionElement.textContent = questions[currentQuestion].question;
+                for (const rating of ratingElements) {
+                    rating.checked = false;
+                }
+                nextButton.disabled = true;
+            } else {
+                calculateScore();
+            }
+        }
+
+        function calculateScore() {
+            let totalRating = 0;
+            for (const q of questions) {
+                totalRating += q.answer;
+            }
+            const percentage = (totalRating / (questions.length * 5)) * 100;
+            resultElement.textContent = Your score: ${percentage.toFixed(2)}%;
+            resultElement.style.display = "block";
+        }
+
+        for (const rating of ratingElements) {
+            rating.addEventListener("change", function () {
+                questions[currentQuestion].answer = parseInt(this.value);
+                nextButton.disabled = false;
+            });
+        }
+
+        nextButton.addEventListener("click", function () {
+            currentQuestion++;
+            showQuestion();
+        });
+
+        showQuestion();
+    </script>
+</body>
+</html>
